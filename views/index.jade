@@ -1,0 +1,10 @@
+extends layout
+
+block meta
+		
+block content
+	for book in books
+		p
+			a(href="/book/#{book.title}/page/1")= book.title
+
+			

@@ -1,0 +1,22 @@
+extends ../layout
+block meta
+
+block content
+	if err
+		p err
+	else
+		for uw in userWords
+			h1= uw.word
+			for entry in uw.entries
+				.entry
+					p= entry.speech 
+					for sense in entry.senses
+						.sense
+							.panel.panel-success
+								.panel-heading
+									h3.panel-title(data-toggle="collapse", data-target="##{sense._id}")
+										span.glyphicon.glyphicon-chevron-down.pull-right
+										= sense.gloss
+								ul.list-group.collapse.in(id=sense._id)
+									for example in sense.examples
+										li.list-group-item= example.content

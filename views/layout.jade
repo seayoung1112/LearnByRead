@@ -1,0 +1,31 @@
+doctype 5
+html#ng-app(ng-app="LearnByRead")
+	head
+		title= title
+		script(src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js")
+		!= js('angular.js')
+		!= js('app.js')
+		!= css('bootstrap.css')
+		!= css('layout.css')
+		block meta
+	body
+		.container(ng-controller="RootCtrl")
+			.navbar.navbar-inverse
+				.navbar-header
+					a.navbar-brand(href="/") Learn By Read
+				.collapse.navbar-collapse
+					ul.nav.navbar-nav
+						li
+							a(href="/board") Words
+			block content
+			#foot 
+				ol.breadcrumb
+					li.active Powered By 
+					li
+						a Node.js
+					li
+						a Wiktionary
+					li
+						a Bootstrap
+					li 
+						a Stanford NLP

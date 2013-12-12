@@ -1,0 +1,12 @@
+extends ../layout
+
+block meta
+		
+block content
+	input#csrf(type="hidden", value="#{csrfToken}")
+	#message.alert.alert-warning(message-bar) {{message}}
+	.row(ng-controller = "PageCtrl", ng-init="init('#{book}','#{pageNum}')") 
+		h1.col-xs-12= book 
+		#content.col-xs-12.lead(page-content) {{page.content}}
+		#dictionary.fade.modal(ng-controller="WordCtrl", word-dialog)
+			
