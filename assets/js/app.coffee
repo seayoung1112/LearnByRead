@@ -10,16 +10,23 @@ app.controller 'RootCtrl', ($scope) ->
 		$scope.message = args.result
 
 app.controller 'PageCtrl', ($scope, $http) ->
-	$scope.init = (book, pageNum) ->
-		$scope.book = book
-		$scope.pageNum = pageNum
-		$http.get("/page/#{$scope.book}/#{$scope.pageNum}").success (data) ->
+	getPage = (pageNum)->
+		$http.get("/page/#{$scope.book}/#{pageNum}").success (data) ->
 			$scope.page = data
+			$scope.pageNum = data.index
+	$scope.init = (book, pageNum, totalPageNum) ->
+		$scope.book = book
+		$scope.totalPageNum = totalPageNum
+		getPage(pageNum)
 	$scope.lookupWord = (args, $event) ->
 		$scope.$broadcast 'lookupWord', 
 			word: args.word
 			sentence: $scope.page.sentences[args.index]
 			el: $event.target
+	$scope.previous = ->
+		getPage($scope.pageNum - 1) if $scope.pageNum > 1
+	$scope.next = ->
+		getPage($scope.pageNum + 1) if $scope.pageNum < $scope.totalPageNum
 
 app.controller 'WordCtrl', ($scope, $http) ->
 	$scope.$on 'lookupWord', (e, args) ->
@@ -46,7 +53,7 @@ app.directive 'pageContent', ($compile) ->
 	link: ($scope, el, attrs) ->
 		$scope.$watch 'page', (newVal) ->
 			el.html "<br/>"
-			if newVal.title?
+			if newVal?.title?
 				el.append "<h1>" + newVal.title.replace?(/\b(\w+?)\b/g, "<span ng-click=\"lookupWord({word:'$1',index:#{i}}, $event)\">$1</span>") + "</h1>"
 			if newVal?.sentences?
 				for sentence, i in newVal.sentences

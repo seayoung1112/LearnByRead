@@ -5,8 +5,15 @@ block meta
 block content
 	input#csrf(type="hidden", value="#{csrfToken}")
 	#message.alert.alert-warning(message-bar) {{message}}
-	.row(ng-controller = "PageCtrl", ng-init="init('#{book}','#{pageNum}')") 
-		h1.col-xs-12= book 
+	.row(ng-controller = "PageCtrl", ng-init="init('#{book.title}','#{pageNum}','#{book.pageNum}')") 
+		h1.col-xs-12= book.title 
 		#content.col-xs-12.lead(page-content) {{page.content}}
+		.col-xs-12
+			ul.pager {{pageNum}} of {{totalPageNum}}
+				li.previous(ng-class="{disabled: pageNum <= 1}")
+					a(ng-click="previous()", href="#") &larr; previous
+				li.next(ng-class="{disabled: pageNum >= totalPageNum}")
+					a(ng-click="next()", href="#") next &rarr; 
+
 		#dictionary.fade.modal(ng-controller="WordCtrl", word-dialog)
 			
