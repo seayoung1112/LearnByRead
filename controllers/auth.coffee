@@ -7,7 +7,6 @@ exports.getLogin = (req, res) ->
 
 exports.postLogin = (req, res, next) ->
   passport.authenticate('local', (err, user, info) ->
-    console.log "auth done #{err} #{user} #{info.message}"
     return next(err) if err
     unless user
       req.session.messages = [info.message]

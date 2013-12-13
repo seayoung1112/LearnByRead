@@ -1,7 +1,8 @@
 mongoose = require("mongoose")
+ObjectId = mongoose.Schema.Types.ObjectId
 
 UserWordSchema = new mongoose.Schema
-	user: {type: String, default: 'test', index: true}
+	user: {type: ObjectId, ref: 'User', required: true}
 	word: {type: String, trim: true, index: true}
 	entries: [
 		speech: String

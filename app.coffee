@@ -14,6 +14,11 @@ bookCtrl = require "./controllers/book"
 http = require "http"
 passport = require 'passport'
 
+# route middleware to ensure user is authenticated.  Otherwise send to login page.
+ensureAuthenticated = (req, res, next) ->
+	return next() if req.isAuthenticated()
+	res.redirect '/login'
+
 app = express()
 
 # all environments
@@ -24,6 +29,10 @@ app.set "view engine", "jade"
 app.use express.compress()
 app.use express.favicon()
 app.use express.logger("dev")
+app.use require('connect-assets')()
+app.use require("stylus").middleware(path.join(__dirname, "assets"))
+app.use "/", express.static(path.join(__dirname, "assets"))
+
 app.use express.json()
 app.use express.urlencoded()
 app.use express.cookieParser("asdgdgsewb233ssdf")
@@ -36,11 +45,10 @@ app.use (req, res, next) ->
 # auth
 app.use passport.initialize()
 app.use passport.session()
-
+app.use (req, res, next) ->
+	res.locals.user = req.user
+	next()
 app.use app.router
-app.use require('connect-assets')()
-app.use require("stylus").middleware(path.join(__dirname, "assets"))
-app.use "/", express.static(path.join(__dirname, "assets"))
 
 # development only
 app.use express.errorHandler()  if "development" is app.get("env")
@@ -49,8 +57,8 @@ app.use express.errorHandler()  if "development" is app.get("env")
 app.get "/", rootCtrl.index
 app.get "/lookup", rootCtrl.lookup
 
-app.post "/board/add", boardCtrl.add
-app.get "/board", boardCtrl.show
+app.post "/board/add", ensureAuthenticated, boardCtrl.add
+app.get "/board", ensureAuthenticated, boardCtrl.show
 
 app.get "/login", authCtrl.getLogin
 app.post "/login", authCtrl.postLogin
@@ -59,7 +67,7 @@ app.get "/logout", authCtrl.logout
 app.get "/registration", userCtrl.getRegistration
 app.post "/registration", userCtrl.postRegistration
 
-app.get "/book/:title/page/:pageNum", bookCtrl.reader
+app.get "/book/:title/page/:pageNum", ensureAuthenticated, bookCtrl.reader
 app.get "/page/:book/:pageNum", bookCtrl.page
 
 # All partials. This is used by Angular.

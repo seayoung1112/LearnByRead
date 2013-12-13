@@ -10,16 +10,19 @@ html#ng-app(ng-app="LearnByRead")
 		!= css('layout.css')
 		block meta
 	body
-		
-
 		.container(ng-controller="RootCtrl")
 			.navbar.navbar-inverse
 				.navbar-header
-					a.navbar-brand(href="/") Learn By Read
+					a.navbar-brand(href="/") Readtionary
 				.collapse.navbar-collapse
 					ul.nav.navbar-nav
 						li
 							a(href="/board") Words
+						li
+							if user
+								a(href="/logout") logout
+							else
+								a(href="/login") login
 			
 			block content
 

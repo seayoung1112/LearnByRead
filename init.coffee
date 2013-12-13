@@ -26,11 +26,9 @@ passport.deserializeUser (id, done) ->
     done err, user
 
 passport.use new LocalStrategy (username, password, done) ->
-  console.log "auth begin"
   User.findOne { name: username }, (err, user) ->
     return done err if err
     return done null, false, message : "Unkonw user #{username}" unless user
-    console.log "begin to compare password"
     user.comparePassword password, (err, isMatch) ->
       return done err if err
       return if isMatch then done null, user else done null, false, message: 'Invalid password'

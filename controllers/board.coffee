@@ -4,7 +4,7 @@ UserWord = mongoose.model 'UserWord'
 sysUtil = require('util')
 
 exports.show = (req, res) ->
-	UserWord.find {user: 'test'}, (err, uws) ->
+	UserWord.find {user: req.user}, (err, uws) ->
 		console.log "error occured when getting all user words \n #{err}" if err
 		res.render "board/show", 
 			userWords: uws, error: err
@@ -12,6 +12,7 @@ exports.show = (req, res) ->
 # add word to board
 exports.add = (req, res) ->
 	newWord = 
+			user: req.user
 			word: req.body.word
 			entries: [
 				speech: req.body.speech
@@ -24,7 +25,7 @@ exports.add = (req, res) ->
 				]
 			]
 
-	UserWord.findOne {user: 'test', word: req.body.word}, (err, uw) ->
+	UserWord.findOne {user: req.user, word: req.body.word}, (err, uw) ->
 		if err
 			console.log "error occured when finding user word \n #{err}"
 			return res.json result: "error", type: "mongo internal", message: err
