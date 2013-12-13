@@ -1,13 +1,18 @@
 #=require bootstrap
 
-app = angular.module 'LearnByRead', []
+app = angular.module 'LearnByRead', ['ngAnimate']
 
 app.config ($httpProvider) ->
 	$httpProvider.defaults.headers.post['x-csrf-token']= $('#csrf').val()
 
-app.controller 'RootCtrl', ($scope) ->
+app.controller 'RootCtrl', ($scope, $timeout) ->
+	$scope.hideMessage = true
 	$scope.$on 'wordaddedToBoard', (e, args) ->
-		$scope.message = args.result
+		$scope.message = content: args.message, status: args.result
+		$scope.hideMessage = false
+		$timeout -> 
+			$scope.hideMessage = true
+		, 3000
 
 app.controller 'PageCtrl', ($scope, $http) ->
 	getPage = (pageNum)->
@@ -73,7 +78,3 @@ app.directive 'wordDialog', ->
 			el.modal 'hide'
 			return
 		el.modal show:false
-
-app.directive 'messageBar', ->
-	link: ($scope, el, attrs) ->
-				el.alert()

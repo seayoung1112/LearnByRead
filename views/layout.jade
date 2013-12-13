@@ -4,11 +4,14 @@ html#ng-app(ng-app="LearnByRead")
 		title= title
 		script(src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js")
 		!= js('angular.js')
+		script(src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.3/angular-animate.js")
 		!= js('app.js')
 		!= css('bootstrap.css')
 		!= css('layout.css')
 		block meta
 	body
+		
+
 		.container(ng-controller="RootCtrl")
 			.navbar.navbar-inverse
 				.navbar-header
@@ -17,7 +20,11 @@ html#ng-app(ng-app="LearnByRead")
 					ul.nav.navbar-nav
 						li
 							a(href="/board") Words
+			
 			block content
+
+			#message.col-xs-12.alert(ng-hide="hideMessage", ng-class="{success: 'alert-success', error: 'alert-danger'}[message.status]") {{message.content}}
+
 			#foot 
 				ol.breadcrumb
 					li.active Powered By 

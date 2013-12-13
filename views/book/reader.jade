@@ -4,7 +4,6 @@ block meta
 		
 block content
 	input#csrf(type="hidden", value="#{csrfToken}")
-	#message.alert.alert-warning(message-bar) {{message}}
 	.row(ng-controller = "PageCtrl", ng-init="init('#{book.title}','#{pageNum}','#{book.pageNum}')") 
 		h1.col-xs-12= book.title 
 		#content.col-xs-12.lead(page-content) {{page.content}}

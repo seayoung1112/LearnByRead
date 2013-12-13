@@ -27,7 +27,7 @@ exports.add = (req, res) ->
 	UserWord.findOne {user: 'test', word: req.body.word}, (err, uw) ->
 		if err
 			console.log "error occured when finding user word \n #{err}"
-			return res.json result: "error", type: "mongo internal", error: err
+			return res.json result: "error", type: "mongo internal", message: err
 		if uw
 			hasEntry = hasSense = false
 			for entry in uw.entries when entry.speech is req.body.speech
@@ -45,5 +45,5 @@ exports.add = (req, res) ->
 		uw.save (err) ->
 			if err
 				console.log "error occured when saving user word \n #{err} \n input word is : \n #{sysUtil.inspect newWord, depth: null}"
-				return res.json result: "error", type: "db operation", error: err
-			res.json result:"success!"
+				return res.json result: "error", type: "db operation", message: err
+			res.json result:"success", message: "The word \"#{uw.word}\" has been added to your board"
