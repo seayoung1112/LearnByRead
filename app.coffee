@@ -67,7 +67,7 @@ app.get "/logout", authCtrl.logout
 app.get "/registration", userCtrl.getRegistration
 app.post "/registration", userCtrl.postRegistration
 
-app.get "/book/:title/page/:pageNum", ensureAuthenticated, bookCtrl.reader
+app.get "/book/:title/page/:pageNum", bookCtrl.reader
 app.get "/page/:book/:pageNum", bookCtrl.page
 
 # All partials. This is used by Angular.
