@@ -2,24 +2,27 @@
 ###
 Module dependencies.
 ###
+express = require "express"
+path = require "path"
+http = require "http"
+passport = require 'passport'
+
+app = express()
+
+require('coffee-trace') if "development" is app.get("env")
+
 require "./init"
 
-path = require "path"
-express = require "express"
 rootCtrl = require "./controllers"
 boardCtrl = require "./controllers/board"
 authCtrl = require "./controllers/auth"
 userCtrl = require "./controllers/user"
 bookCtrl = require "./controllers/book"
-http = require "http"
-passport = require 'passport'
 
 # route middleware to ensure user is authenticated.  Otherwise send to login page.
 ensureAuthenticated = (req, res, next) ->
 	return next() if req.isAuthenticated()
 	res.redirect '/login'
-
-app = express()
 
 # all environments
 app.set "port", process.env.PORT or 3000
@@ -51,7 +54,7 @@ app.use (req, res, next) ->
 app.use app.router
 
 # development only
-app.use express.errorHandler()  if "development" is app.get("env")
+app.use express.errorHandler() if "development" is app.get("env")
 
 # routes started here
 app.get "/", rootCtrl.index

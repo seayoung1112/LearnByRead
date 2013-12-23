@@ -17,6 +17,7 @@
     "amqp": "*",
     "passport": "*",
     "passport-local": "*",
-    "bcrypt": "*"
+    "bcrypt": "*",
+    "coffee-trace": "*"
   }
 }

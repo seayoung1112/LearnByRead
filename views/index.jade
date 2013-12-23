@@ -3,8 +3,16 @@ extends layout
 block meta
 		
 block content
-	for book in books
-		p
-			a(href="/book/#{book.title}/page/1")= book.title
+	.jumbotron
+		include auth/login
+		table.table.table-striped
+			for book in books
+				tr
+					td
+						a(href="/book/#{book.title}/page/1")= book.mainTitle
+							if book.ep
+								= " " + book.ep
+							if book.subTitle
+								small= " - " + book.subTitle.toLowerCase()
 
 			

@@ -15,16 +15,17 @@ connection.on 'error', (e)->
 
 uid = require 'uid2'
 
+TIMEOUT_LIMIT = 1000
+
 exports.lookup = (word, callback) ->
 	if not word?
-		console.log 'no word given'
-		return 
+		return callback "no word given", null
 	id = "" + uid(24)
 	requestMap[id] = callback: callback
+	setTimeout handleTimeout, TIMEOUT_LIMIT, id
 	connection.publish wktQueue, word, 
 		replyTo: responseQueue.name
 		correlationId: id
-		mandatory: true
  	console.log "[x] message published, requestMap binding created, id:#{id}"
 
 handleRpcResponse = (message, headers, deliveryInfo) ->
@@ -32,7 +33,12 @@ handleRpcResponse = (message, headers, deliveryInfo) ->
 	console.log deliveryInfo
 	if deliveryInfo.correlationId? and requestMap[deliveryInfo.correlationId]?
 		id = deliveryInfo.correlationId
-		requestMap[id].callback(message)
+		requestMap[id].callback null, message
 		delete requestMap[id]
 	else
 		console.log '[x] stray rpc message received'
+
+handleTimeout = (id) ->
+	console.log "dictionary server timeout, dispose #{id}"
+	requestMap[id].callback "dictionary server timeout", null
+	delete requestMap[id]

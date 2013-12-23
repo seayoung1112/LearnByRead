@@ -6,7 +6,8 @@ block content
 	input#csrf(type="hidden", value="#{csrfToken}")
 	.row.book(ng-controller = "PageCtrl", ng-init="init('#{book.title}','#{pageNum}','#{book.pageNum}')") 
 		h1.col-xs-12.title= book.mainTitle
-			small= " " + book.subTitle.toLowerCase()
+			if book.subTitle
+				small= " " + book.subTitle.toLowerCase()
 		#content.col-xs-12.lead(page-content) {{page.content}}
 		.col-xs-12
 			ul.pager {{pageNum}} of {{totalPageNum}}

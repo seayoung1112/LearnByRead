@@ -1,5 +1,8 @@
 #=require bootstrap
 
+LOOKUP_FAIL_MSG = "Sorry, can't get the word at this moment"
+LOOKUP_MSG = "Trying hard to look up the word now"
+
 app = angular.module 'LearnByRead', ['ngAnimate']
 
 app.config ($httpProvider) ->
@@ -35,7 +38,15 @@ app.controller 'PageCtrl', ($scope, $http) ->
 
 app.controller 'WordCtrl', ($scope, $http) ->
 	$scope.$on 'lookupWord', (e, args) ->
+		$scope.status = "looking"
+		$scope.word = null
+		$scope.sentence = LOOKUP_MSG
+		$scope.entries = null
 		$http.get("/lookup?word=#{args.word}").success (data) ->
+			if data.error
+				$scope.status = "error"
+				return $scope.sentence = LOOKUP_FAIL_MSG
+			$scope.status = "success"
 			$scope.word = data.word
 			$scope.sentence = args.sentence
 			$scope.entries = data.entries
@@ -57,7 +68,7 @@ app.controller 'WordCtrl', ($scope, $http) ->
 app.directive 'pageContent', ($compile) ->
 	link: ($scope, el, attrs) ->
 		$scope.$watch 'page', (newVal) ->
-			el.html "<br/>"
+			el.html ""
 			if newVal?.title?
 				el.append "<h1>" + newVal.title.replace?(/\b(\w+?)\b/g, "<span ng-click=\"lookupWord({word:'$1',index:#{i}}, $event)\">$1</span>") + "</h1>"
 			if newVal?.sentences?

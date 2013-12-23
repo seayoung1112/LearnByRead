@@ -15,9 +15,10 @@ exports.index = (req, res) ->
 			books: books, error: err
 
 exports.lookup = (req, res) ->
-	wkt.lookup req.query.word, (message)->
+	wkt.lookup req.query.word, (err, message)->
+		if err
+			console.log "error occured when looking up word \n #{err}"
+			return res.json error: err
 		data = decoder.write(message.data)
 		console.log data
 		res.json JSON.parse(data)
-
-	

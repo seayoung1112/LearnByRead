@@ -1,10 +1,11 @@
-form(action="/login", method="post")
+form#login-form.form-inline(action="/login", method="post")
 	input(type="hidden", name="_csrf", value=csrfToken)
-	p username
-		input(name="username")
-	p password
-		input(name="password")
-	p
-		input(type="submit" value="submit")
-	p
-		a(href="/registration") register
+	.form-group 
+		label.sr-only username
+		input.form-control(name="username", placeholder="User Name")
+	.form-group 
+		label.sr-only password
+		input.form-control(name="password", placeholder="Password")
+	button.btn.btn-default(type="submit") Sign in
+
+	a.btn.btn-default(href="/registration") Register

@@ -3,7 +3,7 @@
 		.modal-header 
 			h1 {{word}}
 		.modal-body 
-			.alert.alert-info {{sentence}}
+			.alert(ng-class="{looking: 'alert-warning', success: 'alert-info', error: 'alert-danger'}[status]") {{sentence}}
 			.entry(ng-repeat="entry in entries")
 				p {{entry.part_of_speech}} 
 				.sense(ng-repeat="sense in entry.senses")
