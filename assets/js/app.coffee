@@ -39,7 +39,7 @@ app.controller 'PageCtrl', ($scope, $http) ->
 app.controller 'WordCtrl', ($scope, $http) ->
 	$scope.$on 'lookupWord', (e, args) ->
 		$scope.status = "looking"
-		$scope.word = null
+		$scope.word = args.word
 		$scope.sentence = LOOKUP_MSG
 		$scope.entries = null
 		$http.get("/lookup?word=#{args.word}").success (data) ->
@@ -47,7 +47,6 @@ app.controller 'WordCtrl', ($scope, $http) ->
 				$scope.status = "error"
 				return $scope.sentence = LOOKUP_FAIL_MSG
 			$scope.status = "success"
-			$scope.word = data.word
 			$scope.sentence = args.sentence
 			$scope.entries = data.entries
 	$scope.pickSense = (sense, speech, $event) ->

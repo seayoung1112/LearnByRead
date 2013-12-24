@@ -15,7 +15,7 @@ connection.on 'error', (e)->
 
 uid = require 'uid2'
 
-TIMEOUT_LIMIT = 1000
+TIMEOUT_LIMIT = 3000
 
 exports.lookup = (word, callback) ->
 	if not word?

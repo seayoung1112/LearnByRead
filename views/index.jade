@@ -4,8 +4,9 @@ block meta
 		
 block content
 	.jumbotron
-		include auth/login
-		table.table.table-striped
+		unless user
+			include auth/login
+		table.table
 			for book in books
 				tr
 					td
