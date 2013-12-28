@@ -39,6 +39,7 @@ handleRpcResponse = (message, headers, deliveryInfo) ->
 		console.log '[x] stray rpc message received'
 
 handleTimeout = (id) ->
-	console.log "dictionary server timeout, dispose #{id}"
-	requestMap[id].callback "dictionary server timeout", null
-	delete requestMap[id]
+	if requestMap[id]?
+		console.log "dictionary server timeout, dispose #{id}"
+		requestMap[id].callback "dictionary server timeout", null
+		delete requestMap[id]
