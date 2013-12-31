@@ -77,7 +77,7 @@ app.directive 'pageContent', ($compile) ->
 
 			$compile(el.contents()) $scope
 		$scope.$on 'lookupWord', (e, args) ->
-			$(args.el).addClass 'label label-primary'
+			$(args.el).addClass 'selected-word'
 
 app.directive 'wordDialog', ->
 	templateUrl: '/partials/word-dlg'

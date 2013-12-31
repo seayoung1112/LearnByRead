@@ -6,8 +6,9 @@
 			.alert(ng-class="{looking: 'alert-warning', success: 'alert-info', error: 'alert-danger'}[status]") {{sentence}}
 			.entry(ng-repeat="entry in entries")
 				p {{entry.part_of_speech}} 
+					span.IPA(ng-repeat="pronun in entry.pronunciation"){{pronun.type}}: {{pronun.text}}&nbsp;
 				.sense(ng-repeat="sense in entry.senses")
 					.input-group(ng-click='pickSense(sense, entry.part_of_speech, $event)')
 						.input-group-addon
 							span.glyphicon.glyphicon-check
-						span.form-control {{sense.content}}
+						span.form-control(style="white-space: pre-wrap;") {{sense.content}}
