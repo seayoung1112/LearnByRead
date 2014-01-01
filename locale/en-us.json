@@ -1,0 +1,13 @@
+{
+	"logo" : "Readtionary",
+	"menu" : {
+		"words" : "words"
+	},
+	"login" : "login",
+	"logout" : "logout",
+	"register" : "register",
+	"page" : {
+		"previous" : "previous",
+		"next" : "next"
+	}
+}

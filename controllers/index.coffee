@@ -22,3 +22,13 @@ exports.lookup = (req, res) ->
 		data = decoder.write(message.data)
 		console.log data
 		res.json JSON.parse(data)
+
+exports.setLang = (req, res) ->
+	lang = req.params.lang
+	next = req.query.next or '/'
+	if req.user
+		req.user.lang = lang
+		req.user.save (err) ->
+			console.log "error occured when updating user lanuage preference\n #{err}" if err
+	req.session.lang = lang
+	res.redirect next

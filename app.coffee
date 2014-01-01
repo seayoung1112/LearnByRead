@@ -6,6 +6,7 @@ express = require "express"
 path = require "path"
 http = require "http"
 passport = require 'passport'
+i18n = require './services/i18n'
 
 app = express()
 
@@ -41,16 +42,20 @@ app.use express.urlencoded()
 app.use express.cookieParser("asdgdgsewb233ssdf")
 app.use express.session()
 app.use express.csrf()
-app.use (req, res, next) ->
-	res.locals.csrfToken = req.csrfToken()
-	next()
 
 # auth
 app.use passport.initialize()
 app.use passport.session()
+
+# set local varialbes
 app.use (req, res, next) ->
+	res.locals.csrfToken = req.csrfToken()
 	res.locals.user = req.user
+	res.locals.originalUrl = req.originalUrl
 	next()
+#locale
+app.use i18n.detect
+
 app.use app.router
 
 # development only
@@ -58,6 +63,7 @@ app.use express.errorHandler() if "development" is app.get("env")
 
 # routes started here
 app.get "/", rootCtrl.index
+app.get "/setlang/:lang", rootCtrl.setLang
 app.get "/lookup", rootCtrl.lookup
 
 app.post "/board/add", ensureAuthenticated, boardCtrl.add

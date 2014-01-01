@@ -1,0 +1,13 @@
+{
+	"logo" : "读典书",
+	"menu" : {
+		"words" : "生词本"
+	},
+	"login" : "登录",
+	"logout" : "退出",
+	"register" : "注册",
+	"page" : {
+		"previous" : "前一页",
+		"next" : "下一页"
+	}
+}

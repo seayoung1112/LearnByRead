@@ -12,9 +12,12 @@ block content
 		.col-xs-12
 			ul.pager {{pageNum}} of {{totalPageNum}}
 				li.previous(ng-class="{disabled: pageNum <= 1}")
-					a(ng-click="previous()", href="#") &larr; previous
+					a(ng-click="previous()", href="#") &larr;&nbsp;
+						= t('page.previous')
 				li.next(ng-class="{disabled: pageNum >= totalPageNum}")
-					a(ng-click="next()", href="#") next &rarr; 
+					
+					a(ng-click="next()", href="#")= t('page.next')
+						|&nbsp;&rarr; 
 
 		#dictionary.fade.modal(ng-controller="WordCtrl", word-dialog)
 			

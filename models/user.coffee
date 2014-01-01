@@ -4,6 +4,7 @@ SALT_WORK_FACTOR = 10
 
 UserSchema = new mongoose.Schema
 	email: {type: String, index: true, required: true, unique: true}
+	lang: {type: String}
 	name: {type: String, default: 'anonymous'}
 	password: {type: String, required: true}
 
