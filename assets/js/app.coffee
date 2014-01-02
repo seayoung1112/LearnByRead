@@ -29,7 +29,7 @@ app.controller 'PageCtrl', ($scope, $http) ->
 	$scope.lookupWord = (args, $event) ->
 		$scope.$broadcast 'lookupWord', 
 			word: args.word
-			sentence: $scope.page.sentences[args.index]
+			sentence: if args.index then $scope.page.sentences[args.index] else $scope.page.title
 			el: $event.target
 	$scope.previous = ->
 		getPage($scope.pageNum - 1) if $scope.pageNum > 1
@@ -69,7 +69,7 @@ app.directive 'pageContent', ($compile) ->
 		$scope.$watch 'page', (newVal) ->
 			el.html ""
 			if newVal?.title?
-				el.append "<h1>" + newVal.title.replace?(/\b(\w+?)\b/g, "<span ng-click=\"lookupWord({word:'$1',index:#{i}}, $event)\">$1</span>") + "</h1>"
+				el.append "<h1>" + newVal.title.replace?(/\b(\w+?)\b/g, "<span ng-click=\"lookupWord({word:'$1'}, $event)\">$1</span>") + "</h1>"
 			if newVal?.sentences?
 				for sentence, i in newVal.sentences
 					el.append "<br/><br/>" if sentence is ""

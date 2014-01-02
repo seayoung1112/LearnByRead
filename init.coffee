@@ -1,8 +1,5 @@
 fs = require "fs"
 path = require "path"
-# init wiktionary service
-wkt = require "./services/wiktionary"
-
 # init mongoose
 mongoose = require "mongoose"
 mongoose.connect("mongodb://localhost/learnbyread")
@@ -11,6 +8,9 @@ mongoose.connect("mongodb://localhost/learnbyread")
 model_path = __dirname + '/models'
 for model_file in fs.readdirSync model_path
   require path.join(model_path, model_file)
+
+# init wiktionary service
+dictionary = require "./services/dictionary"
 
 User = mongoose.model 'User'
 

@@ -1,4 +1,4 @@
-wkt = require "../services/wiktionary"
+dictionary = require "../services/dictionary"
 sysUtil = require('util')
 mongoose = require 'mongoose'
 Book = mongoose.model 'Book'
@@ -12,7 +12,7 @@ exports.index = (req, res) ->
 			books: books, error: err
 
 exports.lookup = (req, res) ->
-	wkt.lookup req.query.word, (err, wordJson)->
+	dictionary.lookup req.query.word, res.lang, (err, wordJson)->
 		if err
 			console.log "error occured when looking up word \n #{err}"
 			return res.json error: err
