@@ -2,6 +2,8 @@ amqp = require('amqp')
 connection = amqp.createConnection()
 responseQueue = {}
 requestMap = {}
+StringDecoder = require('string_decoder').StringDecoder
+decoder = new StringDecoder 'utf8'
 wktQueue = 'wkt_queue'
 connection.on 'ready', ->
 	console.log '[x] amqp connection established'
@@ -33,7 +35,8 @@ handleRpcResponse = (message, headers, deliveryInfo) ->
 	console.log deliveryInfo
 	if deliveryInfo.correlationId? and requestMap[deliveryInfo.correlationId]?
 		id = deliveryInfo.correlationId
-		requestMap[id].callback null, message
+		data = decoder.write(message.data)
+		requestMap[id].callback null, JSON.parse(data)
 		delete requestMap[id]
 	else
 		console.log '[x] stray rpc message received'

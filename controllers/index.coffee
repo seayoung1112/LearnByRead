@@ -1,7 +1,4 @@
 wkt = require "../services/wiktionary"
-StringDecoder = require('string_decoder').StringDecoder
-decoder = new StringDecoder 'utf8'
-
 sysUtil = require('util')
 mongoose = require 'mongoose'
 Book = mongoose.model 'Book'
@@ -15,13 +12,11 @@ exports.index = (req, res) ->
 			books: books, error: err
 
 exports.lookup = (req, res) ->
-	wkt.lookup req.query.word, (err, message)->
+	wkt.lookup req.query.word, (err, wordJson)->
 		if err
 			console.log "error occured when looking up word \n #{err}"
 			return res.json error: err
-		data = decoder.write(message.data)
-		console.log data
-		res.json JSON.parse(data)
+		res.json wordJson
 
 exports.setLang = (req, res) ->
 	lang = req.params.lang
